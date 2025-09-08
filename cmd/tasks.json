@@ -1,0 +1,29 @@
+[
+    {
+        "id": "1",
+        "name": "Example Task",
+        "description": "This is an example task to demonstrate the JSON structure.",
+        "status": "not_started",
+        "priority": "high",
+        "due_date": "2023-12-31",
+        "completed_date": "2024-01-01"
+    },
+    {
+        "id": "2",
+        "name": "Second Task",
+        "description": "This is the second task in the list.",
+        "status": "in_progress",
+        "priority": "medium",
+        "due_date": "2024-01-15",
+        "completed_date": null
+    },
+    {
+        "id": "3",
+        "name": "Third Task",
+        "description": "This is the third task, which is completed.",
+        "status": "completed",
+        "priority": "low",
+        "due_date": null,
+        "completed_date": "2024-01-10"
+    }
+]
