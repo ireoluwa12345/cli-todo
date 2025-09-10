@@ -13,9 +13,9 @@ var createCmd = &cobra.Command{
 	Aliases: []string{"c"},
 	Run: func(cmd *cobra.Command, args []string) {
 
-		tui := tui.New()
-		model := tui.NewCreateModel()
-		tui.Run(model)
+		t := tui.New()
+		model := t.NewCreateModel()
+		t.Run(model)
 	},
 }
 

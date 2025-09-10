@@ -23,9 +23,9 @@ var detailsCmd = &cobra.Command{
 			return
 		}
 
-		tui := tui.New()
-		model := tui.NewDetailsModel(task, 0, 0)
-		tui.Run(model)
+		t := tui.New()
+		model := t.NewDetailsModel(task, 0, 0)
+		t.Run(model)
 	},
 }
 

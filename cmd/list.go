@@ -26,9 +26,9 @@ var listCmd = &cobra.Command{
 		}
 
 		// Launch Bubble Tea TUI for task list
-		tui := tui.New()
-		model := tui.NewListModel(tasks)
-		tui.Run(model)
+		t := tui.New()
+		model := t.NewListModel(tasks)
+		t.Run(model)
 	},
 }
 

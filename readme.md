@@ -1,81 +1,102 @@
-# Go CLI Todo List
+## CLI Todo – TUI-powered task viewer
 
-This is a simple command-line Todo List application written in Go. It allows you to add, view, and manage your tasks, storing them in a CSV file in your home directory.
+A small cross-platform CLI app for viewing and exploring tasks with a modern TUI built on Bubble Tea. It ships with three commands: list tasks, view task details, and open a create form UI.
 
-## Features
+### Features
 
-- **Add Tasks:** Quickly add new tasks to your todo list.
-- **View Tasks:** Display all your tasks in a formatted table.
-- **Persistent Storage:** Tasks are saved in a CSV file (`todo.csv`) in your home directory.
-- **Colorful Output:** Uses colored output for better readability.
-- **Timestamps:** Each task is saved with the time it was added.
+- **List tasks**: Interactive table with keyboard navigation
+- **Task details**: Pretty, colorized detail view
+- **Create form UI**: Inputs for Task Name, Status, Priority, Due Date, and Description
+- **Fast, keyboard-first UX** powered by Bubble Tea, Bubbles, and Lip Gloss
 
-## Getting Started
+### Tech stack
 
-### Prerequisites
+- Go `go.mod` module: `cli/todo`
+- Cobra (CLI), Bubble Tea/Bubbles (TUI), Lip Gloss (styles)
 
-- Go 1.18 or higher installed on your system.
+### Requirements
 
-### Installation
+- Go (version matching `go.mod`, currently `1.24.2`)
+- Windows, macOS, or Linux terminal
 
-1. Clone the repository:
+### Install / Build
 
-   ```
-   git clone https://github.com/yourusername/go-todo-cli.git
-   cd go-todo-cli
-   ```
+```bash
+# from the project root
+go mod download
+go build -o todo.exe .   # on Windows
+# or
+go build -o todo .       # on macOS/Linux
+```
 
-2. Install dependencies:
+You can also run without building:
 
-   ```
-   go get github.com/fatih/color
-   go get github.com/rodaine/table
-   ```
-
-3. Build the application:
-   ```
-   go build -o todo
-   ```
+```bash
+go run . --help
+```
 
 ### Usage
 
-- **Add a Task:**
+```bash
+# Show help
+todo.exe --help
 
-  ```
-  ./todo add "Buy groceries"
-  ```
+# List all tasks in a TUI table
+todo.exe list
 
-- **View Tasks:**
+# View details for a task by ID or title
+todo.exe details <id-or-title>
 
-  ```
-  ./todo list
-  ```
+# Open the create form UI (inputs only, no persistence yet)
+todo.exe create
+```
 
-- **Remove a Task:**
-  ```
-  ./todo remove 1
-  ```
+### Commands
 
-> The CSV file is automatically created in your home directory as `todo.csv`.
+- **list (l)**: Get the list of all tasks and browse them in a table.
+- **details (d)**: View details about a single task by ID or title.
+- **create (c)**: Open a form to enter Task Name, Status, Priority, Due Date, and Description.
 
-## Project Structure
+### TUI navigation
 
-- `main.go` - Main application logic.
-- `todo.csv` - CSV file storing your tasks (auto-generated).
+- **Global**: `q`, `esc`, or `ctrl+c` to quit
 
-## Dependencies
+- **List view**
 
-- [fatih/color](https://github.com/fatih/color) - For colored terminal output.
-- [rodaine/table](https://github.com/rodaine/table) - For pretty table formatting.
+  - Move selection: `up`/`down` or `k`/`j`
+  - Open the selected task: `enter`
 
-## License
+- **Details view**
 
-This project is licensed under the MIT License.
+  - Close: `q`, `esc`, or `ctrl+c`
 
-## Contributing
+- **Create view**
+  - Move focus: `tab`, `shift+tab`, `up`, `down`
+  - Fields: Task Name, Status, Priority, Due Date, Description
+  - Close: `q`, `esc`, or `ctrl+c`
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+Note: The create form currently renders inputs and supports navigation; saving/persistence is not implemented yet.
 
-## Author
+### Data
 
-- [Your Name](https://github.com/yourusername)
+For demo purposes, tasks are read from `cmd/tasks.json`. The list and details views consume these records. The create form is UI-only in this version.
+
+### Development
+
+```bash
+# Run in watch mode (example using `reflex`, optional)
+reflex -r '\\.go$' -s -- go run . list
+
+# Linting (choose your preferred tool)
+golangci-lint run
+```
+
+Project structure highlights:
+
+- `cmd/`: Cobra commands and helpers (`list`, `details`, `create`)
+- `tui/`: Bubble Tea models for List, Details, and Create views
+- `models/`: Task model definitions
+
+### License
+
+MIT. See `LICENSE`.

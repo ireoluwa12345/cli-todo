@@ -27,7 +27,8 @@ func (t *Tui) NewCreateModel() CreateModel {
 		focusIndex: 0,
 	}
 
-	model.inputs = make([]textinput.Model, 10)
+	// 4 is the number of fields requiring a textinput in the create form
+	model.inputs = make([]textinput.Model, 4)
 	for i := range model.inputs {
 		ti := textinput.New()
 		ti.CharLimit = 156
@@ -79,13 +80,10 @@ func (m CreateModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "tab", "shift+tab", "enter", "up", "down":
 			s := msg.String()
 
-			// Did the user press enter while the submit button was focused?
-			// If so, exit.
 			if s == "enter" && m.focusIndex == len(m.inputs) {
 				return m, tea.Quit
 			}
 
-			// Cycle indexes
 			if s == "up" || s == "shift+tab" {
 				m.focusIndex--
 			} else {
@@ -100,7 +98,6 @@ func (m CreateModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 			cmds := make([]tea.Cmd, len(m.inputs))
 			if m.focusIndex == len(m.inputs) {
-				// Blur all inputs
 				for i := 0; i < len(m.inputs); i++ {
 					m.inputs[i].Blur()
 					m.inputs[i].PromptStyle = noStyle
@@ -108,7 +105,6 @@ func (m CreateModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 				m.description.Focus()
 			} else {
-				// Focus the appropriate input, blur others, blur textarea
 				for i := 0; i < len(m.inputs); i++ {
 					if i == m.focusIndex {
 						cmds[i] = m.inputs[i].Focus()
@@ -187,7 +183,7 @@ func (m CreateModel) View() string {
 	}
 
 	// Description
-	output += labelStyle.Render("Description") + ":"
+	output += labelStyle.Render("Description") + " \n"
 	output += m.description.View() + "\n\n"
 
 	return boxStyle.Render(output)
